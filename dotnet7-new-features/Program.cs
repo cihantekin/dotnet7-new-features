@@ -31,6 +31,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("EndpointWithDescription", () => { }).WithDescription("Test description for that endpoint");
+app.MapGet("/EndpointWithDescription", () => { return "OK"; }).WithDescription("Test description for that endpoint");
+
+app.MapGet("/EndpointWithSummary", [EndpointSummary("Endpoint summary attribute example")] () => { });
 
 app.Run();

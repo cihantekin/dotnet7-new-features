@@ -32,6 +32,7 @@ namespace dotnet7_new_features.Controllers
         }
 
         //[FromServices] no longer necessary
+        [HttpGet("GetSomething")]
         public ActionResult GetSomething(WeatherForecast forecast) => Ok();
     }
 }
