@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,5 +35,18 @@ app.MapControllers();
 app.MapGet("/EndpointWithDescription", () => { return "OK"; }).WithDescription("Test description for that endpoint");
 
 app.MapGet("/EndpointWithSummary", [EndpointSummary("Endpoint summary attribute example")] () => { });
+
+// See: https://devblogs.microsoft.com/dotnet/asp-net-core-updates-in-dotnet-7-preview-2/#binding-arrays-and-stringvalues-from-headers-and-query-strings-in-minimal-apis
+// Bind query string values to a primitive type array
+// GET  /tags?q=1&q=2&q=3
+app.MapGet("/tags", (int[] q) => $"tag1: {q[0]} , tag2: {q[1]}, tag3: {q[2]}");
+
+// Bind to a string array
+// GET /tags?names=john&names=jack&names=jane
+app.MapGet("/tags", (string[] names) => $"tag1: {names[0]} , tag2: {names[1]}, tag3: {names[2]}");
+
+// Bind to StringValues
+// GET /tags?names=john&names=jack&names=jane
+app.MapGet("/tags", (StringValues names) => $"tag1: {names[0]} , tag2: {names[1]}, tag3: {names[2]}");
 
 app.Run();
