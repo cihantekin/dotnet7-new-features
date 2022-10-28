@@ -2,6 +2,7 @@
 
 namespace dotnet7_new_features.Json.Text
 {
+    // Check for all: https://devblogs.microsoft.com/dotnet/system-text-json-in-dotnet-7/?utm_source=pocket_mylist
     public static class ExcludeMemberModifier
     {
         public static void ExcludeOldMember(JsonTypeInfo jsonTypeInfo)
