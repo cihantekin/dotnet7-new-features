@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
-namespace dotnet7_new_features
+namespace dotnet7_new_features.Json.Text
 {
     public class UpperCasePropertyContractResolver : DefaultJsonTypeInfoResolver
     {

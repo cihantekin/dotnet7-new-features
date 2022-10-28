@@ -1,8 +1,10 @@
 using dotnet7_new_features;
+using dotnet7_new_features.Json.Text;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,5 +55,16 @@ app.MapGet("/tags", (StringValues names) => $"tag1: {names[0]} , tag2: {names[1]
 
 var options = new JsonSerializerOptions { TypeInfoResolver = new UpperCasePropertyContractResolver() };
 var test = JsonSerializer.Serialize(new { value = "uppercase test" }, options);
+
+JsonSerializerOptions optionsExclude = new()
+{
+    TypeInfoResolver = new DefaultJsonTypeInfoResolver
+    {
+        Modifiers = { ExcludeMemberModifier.ExcludeOldMember }
+    }
+};
+ExcludeMemberTestClass testClass = new() { StringProp = "test", StringPropOld = "test2" };
+
+var result = JsonSerializer.Serialize(testClass, optionsExclude);
 
 app.Run();
