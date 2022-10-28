@@ -1,6 +1,8 @@
+using dotnet7_new_features;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,5 +50,8 @@ app.MapGet("/tags", (string[] names) => $"tag1: {names[0]} , tag2: {names[1]}, t
 // Bind to StringValues
 // GET /tags?names=john&names=jack&names=jane
 app.MapGet("/tags", (StringValues names) => $"tag1: {names[0]} , tag2: {names[1]}, tag3: {names[2]}");
+
+var options = new JsonSerializerOptions { TypeInfoResolver = new UpperCasePropertyContractResolver() };
+var test = JsonSerializer.Serialize(new { value = "uppercase test" }, options);
 
 app.Run();

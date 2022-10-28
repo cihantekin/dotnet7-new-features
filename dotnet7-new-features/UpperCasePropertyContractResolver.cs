@@ -19,11 +19,5 @@ namespace dotnet7_new_features
 
             return info;
         }
-
-        public string SerializeMyModel()
-        {
-            var options = new JsonSerializerOptions { TypeInfoResolver = new UpperCasePropertyContractResolver() };
-            return JsonSerializer.Serialize(new { value = "uppercase test" }, options);
-        }
     }
 }
