@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -66,5 +67,27 @@ JsonSerializerOptions optionsExclude = new()
 ExcludeMemberTestClass testClass = new() { StringProp = "test", StringPropOld = "test2" };
 
 var result = JsonSerializer.Serialize(testClass, optionsExclude);
+
+var options2 = new JsonSerializerOptions
+{
+    TypeInfoResolver = new DefaultJsonTypeInfoResolver
+    {
+        Modifiers =
+        {
+            static typeInfo =>
+            {
+                if (typeInfo.Kind != JsonTypeInfoKind.Object)
+                    return;
+
+                foreach (JsonPropertyInfo propertyInfo in typeInfo.Properties)
+                {
+                    // strip IsRequired constraint from every property
+                    // because for now required properties not supported
+                    propertyInfo.IsRequired = false;
+                }
+            }
+        }
+    }
+};
 
 app.Run();

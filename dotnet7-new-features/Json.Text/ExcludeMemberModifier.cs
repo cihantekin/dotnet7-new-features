@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization.Metadata;
+﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 
 namespace dotnet7_new_features.Json.Text
 {
@@ -28,5 +29,13 @@ namespace dotnet7_new_features.Json.Text
     {
         public string StringProp { get; set; }
         public string StringPropOld { get; set; }
+    }
+
+    public class Person
+    {
+        // It should be noted that required properties are currently not supported by the source generator.
+        [JsonRequired]
+        public required string Name { get; set; }
+        public int Age { get; set; }
     }
 }
