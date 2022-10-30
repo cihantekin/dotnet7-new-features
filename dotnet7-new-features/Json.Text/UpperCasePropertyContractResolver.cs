@@ -13,6 +13,7 @@ namespace dotnet7_new_features.Json.Text
             {
                 foreach (var prop in info.Properties)
                 {
+                    // Turn prop names to uppercase 
                     prop.Name = prop.Name.ToUpperInvariant();
                 }
             }
