@@ -1,5 +1,6 @@
 using dotnet7_new_features.Json.Text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCaching;
 using Microsoft.Extensions.Primitives;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
@@ -41,9 +42,37 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseResponseCaching();
+
 app.MapGet("/EndpointWithDescription", () => { return "OK"; }).WithDescription("Test description for that endpoint");
 
 app.MapGet("/EndpointWithSummary", [EndpointSummary("Endpoint summary attribute example")] () => { });
+
+// when you hit the load button it's coming from the cache for 5 seconds
+app.MapGet("/ResponseCaching", (int? size, HttpContext context) =>
+{
+    const string type = "monsterid";
+    size ??= 200;
+    var hash = Guid.NewGuid().ToString("n");
+
+    if (context.Features.Get<IResponseCachingFeature>() is { } responseCaching)
+    {
+        responseCaching.VaryByQueryKeys = new[] { "size" };
+        context.Response.GetTypedHeaders().CacheControl = new()
+        {
+            Public = true,
+            MaxAge = TimeSpan.FromSeconds(5)
+        };
+    }
+
+    var html = $"""
+<img src="https://www.gravatar.com/avatar/{hash}?s={size}&d={type}" width="{size}" />
+<pre>Generated at {DateTime.Now:O}</pre>
+<a href="/ResponseCaching?size={size}">Load</a>
+""";
+
+    return Results.Text(html, "text/html");
+});
 
 // See: https://devblogs.microsoft.com/dotnet/asp-net-core-updates-in-dotnet-7-preview-2/#binding-arrays-and-stringvalues-from-headers-and-query-strings-in-minimal-apis
 // Bind query string values to a primitive type array
