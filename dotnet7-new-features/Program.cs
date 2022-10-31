@@ -1,10 +1,7 @@
-using dotnet7_new_features;
 using dotnet7_new_features.Json.Text;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +12,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHttpLogging(e =>
+{
+    e.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.All; //Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestPath | Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestBody;
+    e.RequestBodyLogLimit = 1024;
+});
+
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -89,5 +93,7 @@ var options2 = new JsonSerializerOptions
         }
     }
 };
+
+app.UseHttpLogging();
 
 app.Run();
