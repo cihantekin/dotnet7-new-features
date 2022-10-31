@@ -19,7 +19,12 @@ builder.Services.AddHttpLogging(e =>
     e.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.All; //Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestPath | Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestBody;
     e.RequestBodyLogLimit = 1024;
 });
-builder.Services.AddProblemDetails();
+builder.Services.AddProblemDetails(CustomizeProblemDetails);
+
+static void CustomizeProblemDetails(ProblemDetailsOptions obj)
+{
+    obj.CustomizeProblemDetails = action => action.ProblemDetails.Extensions.Add("customAddition", Environment.MachineName);
+}
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
