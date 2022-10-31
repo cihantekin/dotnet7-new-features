@@ -19,7 +19,7 @@ builder.Services.AddHttpLogging(e =>
     e.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.All; //Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestPath | Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestBody;
     e.RequestBodyLogLimit = 1024;
 });
-
+builder.Services.AddProblemDetails();
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -36,8 +36,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Using with problem details send user interface a json like not found or what is the error...
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
-
+app.UseStatusCodePages();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -66,13 +68,15 @@ app.MapGet("/ResponseCaching", (int? size, HttpContext context) =>
     }
 
     var html = $"""
-<img src="https://www.gravatar.com/avatar/{hash}?s={size}&d={type}" width="{size}" />
-<pre>Generated at {DateTime.Now:O}</pre>
-<a href="/ResponseCaching?size={size}">Load</a>
-""";
+                    <img src="https://www.gravatar.com/avatar/{hash}?s={size}&d={type}" width="{size}" />
+                    <pre>Generated at {DateTime.Now:O}</pre>
+                    <a href="/ResponseCaching?size={size}">Load</a>
+                """;
 
     return Results.Text(html, "text/html");
 });
+
+//app.MapGet("/problem", () => Results.Problem("that is a problem")).AddEndpointFilter<ProblemDetailsServiceEndpointFilter>();
 
 // See: https://devblogs.microsoft.com/dotnet/asp-net-core-updates-in-dotnet-7-preview-2/#binding-arrays-and-stringvalues-from-headers-and-query-strings-in-minimal-apis
 // Bind query string values to a primitive type array
