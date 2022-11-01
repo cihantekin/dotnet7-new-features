@@ -73,9 +73,7 @@ app.MapGet("/ResponseCaching", (int? size, HttpContext context) =>
     }
 
     var html = $"""
-                    <img src="https://www.gravatar.com/avatar/{hash}?s={size}&d={type}" width="{size}" />
-                    <pre>Generated at {DateTime.Now:O}</pre>
-                    <a href="/ResponseCaching?size={size}">Load</a>
+                    <img src="https://www.gravatar.com/avatar/{hash}?s={size}&d={type}" width="{size}" /><pre>Generated at {DateTime.Now:O}</pre><a href="/ResponseCaching?size={size}">Load</a>
                 """;
 
     return Results.Text(html, "text/html");
