@@ -1,6 +1,7 @@
 using dotnet7_new_features.EndpointFilters;
 using dotnet7_new_features.Json.Text;
 using dotnet7_new_features.Model;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCaching;
 using Microsoft.Extensions.Primitives;
@@ -23,6 +24,7 @@ builder.Services.AddHttpLogging(e =>
 });
 builder.Services.AddProblemDetails(CustomizeProblemDetails);
 
+builder.Services.AddValidatorsFromAssemblyContaining<Program>(ServiceLifetime.Singleton);
 static void CustomizeProblemDetails(ProblemDetailsOptions obj)
 {
     obj.CustomizeProblemDetails = action => action.ProblemDetails.Extensions.Add("customAddition", Environment.MachineName);
@@ -86,15 +88,15 @@ app.MapGet("/ResponseCaching", (int? size, HttpContext context) =>
 // See: https://devblogs.microsoft.com/dotnet/asp-net-core-updates-in-dotnet-7-preview-2/#binding-arrays-and-stringvalues-from-headers-and-query-strings-in-minimal-apis
 // Bind query string values to a primitive type array
 // GET  /tags?q=1&q=2&q=3
-app.MapGet("/tags", (int[] q) => $"tag1: {q[0]} , tag2: {q[1]}, tag3: {q[2]}");
+//app.MapGet("/tags", (int[] q) => $"tag1: {q[0]} , tag2: {q[1]}, tag3: {q[2]}");
 
-// Bind to a string array
-// GET /tags?names=john&names=jack&names=jane
-app.MapGet("/tags", (string[] names) => $"tag1: {names[0]} , tag2: {names[1]}, tag3: {names[2]}");
+//// Bind to a string array
+//// GET /tags?names=john&names=jack&names=jane
+//app.MapGet("/tags", (string[] names) => $"tag1: {names[0]} , tag2: {names[1]}, tag3: {names[2]}");
 
-// Bind to StringValues
-// GET /tags?names=john&names=jack&names=jane
-app.MapGet("/tags", (StringValues names) => $"tag1: {names[0]} , tag2: {names[1]}, tag3: {names[2]}");
+//// Bind to StringValues
+//// GET /tags?names=john&names=jack&names=jane
+//app.MapGet("/tags", (StringValues names) => $"tag1: {names[0]} , tag2: {names[1]}, tag3: {names[2]}");
 
 var options = new JsonSerializerOptions { TypeInfoResolver = new UpperCasePropertyContractResolver() };
 var test = JsonSerializer.Serialize(new { value = "uppercase test" }, options);
