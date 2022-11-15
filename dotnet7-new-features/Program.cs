@@ -1,4 +1,6 @@
+using dotnet7_new_features.EndpointFilters;
 using dotnet7_new_features.Json.Text;
+using dotnet7_new_features.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCaching;
 using Microsoft.Extensions.Primitives;
@@ -129,6 +131,13 @@ var options2 = new JsonSerializerOptions
         }
     }
 };
+
+// endpoint for endpoints filter
+
+app.MapPost("/TestEndpointFilter", ([FromBody] RegisterCustomerRequest customer) =>
+{
+    return Results.Ok();
+}).AddEndpointFilter<ValidationFilter<RegisterCustomerRequest>>();
 
 app.UseHttpLogging();
 
