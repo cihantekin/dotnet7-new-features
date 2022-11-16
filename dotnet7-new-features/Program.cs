@@ -1,3 +1,4 @@
+using dotnet7_new_features.Cache;
 using dotnet7_new_features.EndpointFilters;
 using dotnet7_new_features.Json.Text;
 using dotnet7_new_features.Model;
@@ -133,6 +134,8 @@ var options2 = new JsonSerializerOptions
         }
     }
 };
+
+var memCacheStatistics = new MemoryCacheStatistics();
 
 // endpoint for endpoints filter
 
