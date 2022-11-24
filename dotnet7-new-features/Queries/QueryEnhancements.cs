@@ -4,12 +4,18 @@ namespace dotnet7_new_features.Queries
 {
     public class QueryEnhancements
     {
-        public QueryEnhancements()
+        private readonly QueryEnhancementsContext _ctx;
+
+        public QueryEnhancements(QueryEnhancementsContext ctx)
         {
-            using var ctx = new QueryEnhancementsContext();
+            _ctx = ctx;
+        }
+
+        public void Test()
+        {
             // now groupby is a final operator. previously the expression could not be translated.
             // grouping will be with  returned results
-            var queryString = ctx.Products.GroupBy(x => x.Price).ToQueryString();
+            var queryString = _ctx.Products.GroupBy(x => x.Price).ToQueryString();
             Console.WriteLine(queryString);
         }
     }

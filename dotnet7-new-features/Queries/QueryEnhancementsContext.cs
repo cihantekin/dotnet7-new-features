@@ -2,9 +2,9 @@
 
 namespace dotnet7_new_features.Queries
 {
-    internal class QueryEnhancementsContext : DbContext
+    public class QueryEnhancementsContext : DbContext
     {
-        public QueryEnhancementsContext()
+        public QueryEnhancementsContext(DbContextOptions options) : base(options)
         {
         }
 

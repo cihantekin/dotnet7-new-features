@@ -2,10 +2,14 @@ using dotnet7_new_features.Cache;
 using dotnet7_new_features.EndpointFilters;
 using dotnet7_new_features.Json.Text;
 using dotnet7_new_features.Model;
+using dotnet7_new_features.Queries;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCaching;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
@@ -36,6 +40,9 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     // with that way [FromServices] aatribute no longer necessary in the controller
     options.DisableImplicitFromServicesParameters = true;
 });
+
+builder.Services.AddDbContext<QueryEnhancementsContext>(opt => opt.UseInMemoryDatabase("TestDb"));
+builder.Services.AddScoped<QueryEnhancementsContext>();
 
 var app = builder.Build();
 
@@ -135,7 +142,7 @@ var options2 = new JsonSerializerOptions
     }
 };
 
-var memCacheStatistics = new MemoryCacheStatistics();
+var memCacheStatistics = new dotnet7_new_features.Cache.MemoryCacheStatistics();
 
 // endpoint for endpoints filter
 
@@ -143,6 +150,14 @@ app.MapPost("/TestEndpointFilter", ([FromBody] RegisterCustomerRequest customer)
 {
     return Results.Ok();
 }).AddEndpointFilter<ValidationFilter<RegisterCustomerRequest>>();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<QueryEnhancementsContext>();
+    var queryEnc = new QueryEnhancements(dbContext);
+    queryEnc.Test();
+}
+
 
 app.UseHttpLogging();
 
