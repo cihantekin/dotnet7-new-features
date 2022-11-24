@@ -7,5 +7,7 @@ namespace dotnet7_new_features.Queries
         public QueryEnhancementsContext()
         {
         }
+
+        public DbSet<Product> Products { get; set; }
     }
 }
