@@ -18,6 +18,11 @@ namespace dotnet7_new_features.Queries
             var queryString = _ctx.Products.GroupBy(x => x.Price).ToQueryString();
             Console.WriteLine(queryString);
         }
+
+        public async Task BulkDelete()
+        {
+            await _ctx.Products.Where(x => x.Name.Contains("test")).ExecuteDeleteAsync();
+        }
     }
 
     public class Product
