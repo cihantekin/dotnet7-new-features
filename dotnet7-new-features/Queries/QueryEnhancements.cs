@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace dotnet7_new_features.Queries
 {
@@ -21,7 +22,13 @@ namespace dotnet7_new_features.Queries
 
         public async Task BulkDelete()
         {
+            // no change tracker
             await _ctx.Products.Where(x => x.Name.Contains("test")).ExecuteDeleteAsync();
+
+            //
+            //DELETE FROM[p]
+            //FROM[Products] AS[p]
+            //WHERE[p].[Name] LIKE N'%test%'
         }
     }
 
