@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace dotnet7_new_features.Queries
 {
@@ -29,6 +28,11 @@ namespace dotnet7_new_features.Queries
             //DELETE FROM[p]
             //FROM[Products] AS[p]
             //WHERE[p].[Name] LIKE N'%test%'
+        }
+
+        public async Task BulkUpdate()
+        {
+            await _ctx.Products.ExecuteUpdateAsync(s => s.SetProperty(b => b.Name, b => b.Name + "test"));
         }
     }
 
