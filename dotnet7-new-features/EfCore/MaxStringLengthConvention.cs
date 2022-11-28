@@ -9,6 +9,7 @@ namespace dotnet7_new_features.EfCore
         {
             foreach (var property in modelBuilder.Metadata.GetEntityTypes().SelectMany(e => e.GetDeclaredProperties().Where(prop => prop.ClrType == typeof(string))))
             {
+                // If there is an exception for that rule go and mark that property with [MaxLength] attribute
                 property.Builder.HasMaxLength(512);
             }
         }
