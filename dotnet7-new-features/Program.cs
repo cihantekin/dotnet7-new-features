@@ -158,6 +158,11 @@ using (var scope = app.Services.CreateScope())
     queryEnc.Test();
 }
 
+//Raw string literals
+//If you need three or more "s to be part of your content, you just use more "s on the outside. 
+var raw1 = """This is \ all "content"!""";
+Console.WriteLine(raw1);
+
 
 app.UseHttpLogging();
 
