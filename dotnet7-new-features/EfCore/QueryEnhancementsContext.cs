@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using dotnet7_new_features.EfCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace dotnet7_new_features.Queries
 {
@@ -6,6 +7,11 @@ namespace dotnet7_new_features.Queries
     {
         public QueryEnhancementsContext(DbContextOptions options) : base(options)
         {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.AddInterceptors(new MyDbContextInterceptor());
         }
 
         public DbSet<Product> Products { get; set; }
