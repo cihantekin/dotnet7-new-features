@@ -22,7 +22,8 @@ namespace dotnet7_new_features.Queries
         public async Task BulkDelete()
         {
             // no change tracker
-            await _ctx.Products.Where(x => x.Name.Contains("test")).ExecuteDeleteAsync();
+            // this query will be detected by TaggedQueryCommandInterceptor
+            await _ctx.Products.TagWith("Use hint: robust plan").Where(x => x.Name.Contains("test")).ExecuteDeleteAsync();
 
             //
             //DELETE FROM[p]
