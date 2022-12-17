@@ -16,12 +16,14 @@ namespace dotnet7_new_features.Queries
             optionsBuilder.AddInterceptors(new MyDbContextInterceptor());
         }
 
+        // Remove this before updating the database and see the difference on the tables.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Vehicle>().UseTpcMappingStrategy();
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<Bus> Buses { get; set; }
     }

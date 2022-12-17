@@ -6,6 +6,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCaching;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
@@ -37,8 +38,16 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.DisableImplicitFromServicesParameters = true;
 });
 
-builder.Services.AddDbContext<QueryEnhancementsContext>(opt => opt.UseInMemoryDatabase("TestDb"));
-builder.Services.AddScoped<QueryEnhancementsContext>();
+//builder.Services.AddDbContext<QueryEnhancementsContext>(opt => opt.UseInMemoryDatabase("TestDb"));
+
+builder.Services.AddDbContextFactory<QueryEnhancementsContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(QueryEnhancementsContext)));
+});
+
+builder.Services.AddScoped(p => p.GetRequiredService<IDbContextFactory<QueryEnhancementsContext>>().CreateDbContext());
+
+//builder.Services.AddScoped<QueryEnhancementsContext>();
 
 var app = builder.Build();
 
