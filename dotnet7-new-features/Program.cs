@@ -1,4 +1,3 @@
-using dotnet7_new_features.Cache;
 using dotnet7_new_features.EndpointFilters;
 using dotnet7_new_features.Json.Text;
 using dotnet7_new_features.Model;
@@ -7,9 +6,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCaching;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Primitives;
-using System;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
