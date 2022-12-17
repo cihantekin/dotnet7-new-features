@@ -1,5 +1,4 @@
-﻿using dotnet7_new_features.EfCore;
-using dotnet7_new_features.EfCore.InheritanceStrategies;
+﻿using dotnet7_new_features.EfCore.InheritanceStrategies;
 using dotnet7_new_features.EfCore.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +19,12 @@ namespace dotnet7_new_features.Queries
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Vehicle>().UseTpcMappingStrategy();
+
+            modelBuilder.Entity<Product>().OwnsOne(product => product.ProductDetail, builder =>
+            {
+                builder.ToJson();
+                builder.OwnsOne(pd => pd.ProducerAddress);
+            });
         }
 
         public DbSet<Product> Products { get; set; }

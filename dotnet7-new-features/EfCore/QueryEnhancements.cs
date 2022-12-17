@@ -42,5 +42,31 @@ namespace dotnet7_new_features.Queries
         public int Id { get; set; }
         public required string Name { get; set; }
         public decimal Price { get; set; }
+        public ProductDetail ProductDetail { get; set; }
+    }
+
+    public class ProductDetail
+    {
+        public string ProductCode { get; set; }
+        public string Description { get; set; }
+        public string UserManual { get; set; }
+        public DateOnly ProductionYear { get; set; }
+        public Address ProducerAddress { get; set; }
+    }
+
+    public class Address
+    {
+        public Address(string street, string city, string postcode, string country)
+        {
+            Street = street;
+            City = city;
+            Postcode = postcode;
+            Country = country;
+        }
+
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string Postcode { get; set; }
+        public string Country { get; set; }
     }
 }
