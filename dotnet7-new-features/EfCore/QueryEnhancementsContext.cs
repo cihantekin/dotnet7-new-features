@@ -1,6 +1,7 @@
 ﻿using dotnet7_new_features.EfCore.InheritanceStrategies;
 using dotnet7_new_features.EfCore.Interceptors;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace dotnet7_new_features.Queries
 {
@@ -9,6 +10,8 @@ namespace dotnet7_new_features.Queries
         public QueryEnhancementsContext(DbContextOptions options) : base(options)
         {
         }
+
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,6 +29,13 @@ namespace dotnet7_new_features.Queries
                 builder.OwnsOne(pd => pd.ProducerAddress);
             });
         }
+
+        // You can remove an existing convention
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder.Conventions.Remove(typeof(ForeignKeyIndexConvention));
+        }
+
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
