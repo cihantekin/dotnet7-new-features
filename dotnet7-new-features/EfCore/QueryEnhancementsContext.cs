@@ -1,4 +1,5 @@
-﻿using dotnet7_new_features.EfCore.InheritanceStrategies;
+﻿using dotnet7_new_features.EfCore.CustomConventions;
+using dotnet7_new_features.EfCore.InheritanceStrategies;
 using dotnet7_new_features.EfCore.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
@@ -30,10 +31,11 @@ namespace dotnet7_new_features.Queries
             });
         }
 
-        // You can remove an existing convention
+        // You can remove/replace/add convention
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
             configurationBuilder.Conventions.Remove(typeof(ForeignKeyIndexConvention));
+            configurationBuilder.Conventions.Add(_ => new DecimalPrecisionInvention());
         }
 
 
