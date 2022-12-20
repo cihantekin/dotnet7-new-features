@@ -38,7 +38,6 @@ namespace dotnet7_new_features.Queries
             configurationBuilder.Conventions.Add(_ => new DecimalPrecisionInvention());
         }
 
-
         public DbSet<Product> Products { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Car> Cars { get; set; }

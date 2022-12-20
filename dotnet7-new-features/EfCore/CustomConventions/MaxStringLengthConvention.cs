@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
-namespace dotnet7_new_features.EfCore
+namespace dotnet7_new_features.EfCore.CustomConventions
 {
     public class MaxStringLengthConvention : IModelFinalizingConvention
     {
