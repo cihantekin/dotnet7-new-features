@@ -12,8 +12,6 @@ namespace dotnet7_new_features.Queries
         {
         }
 
-
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.AddInterceptors(new MyDbContextInterceptor());

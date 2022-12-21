@@ -42,16 +42,16 @@ namespace dotnet7_new_features.Queries
         public int Id { get; set; }
         public required string Name { get; set; }
         public decimal Price { get; set; }
-        public ProductDetail ProductDetail { get; set; }
+        public ProductDetail ProductDetail { get; set; } = new();
     }
 
     public class ProductDetail
     {
-        public string ProductCode { get; set; }
-        public string Description { get; set; }
-        public string UserManual { get; set; }
+        public string ProductCode { get; set; } = new("");
+        public string Description { get; set; } = new("");
+        public string UserManual { get; set; } = new("");
         public DateOnly ProductionYear { get; set; }
-        public Address ProducerAddress { get; set; }
+        public Address? ProducerAddress { get; set; }
     }
 
     public class Address

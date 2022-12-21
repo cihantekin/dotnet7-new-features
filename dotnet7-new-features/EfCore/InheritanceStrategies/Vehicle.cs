@@ -11,12 +11,12 @@
     public abstract class Vehicle
     {
         public int Id { get; set; }
-        public string Model { get; set; }
+        public string Model { get; set; } = new("");
     }
 
     public class Car : Vehicle
     {
-        public string Segment { get; set; }
+        public string Segment { get; set; } = new("");
         public int DoorCount { get; set; }
     }
 

@@ -27,8 +27,8 @@ namespace dotnet7_new_features.Json.Text
 
     public class ExcludeMemberTestClass
     {
-        public string StringProp { get; set; }
-        public string StringPropOld { get; set; }
+        public string StringProp { get; set; } = new("");
+        public string StringPropOld { get; set; } = new("");
     }
 
     public class Person
