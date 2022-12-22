@@ -24,7 +24,7 @@ namespace dotnet7_new_features.Queries
 
             modelBuilder.Entity<Product>().OwnsOne(product => product.ProductDetail, builder =>
             {
-                builder.ToJson();
+                //builder.ToJson();
                 builder.OwnsOne(pd => pd.ProducerAddress);
             });
         }
