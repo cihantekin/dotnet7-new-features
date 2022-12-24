@@ -46,7 +46,7 @@ namespace dotnet7_new_features.Controllers
 
         //[FromServices] no longer necessary
         [HttpGet("GetSomething")]
-        public ActionResult GetSomething(WeatherForecast forecast) => Ok();
+        public ActionResult GetSomething() => Ok();
 
         // This will return exactly what we wait, in .net6 it was serializing whole result object
         [HttpGet("IResultSupported")]

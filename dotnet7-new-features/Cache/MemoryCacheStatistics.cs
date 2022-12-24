@@ -26,10 +26,13 @@ namespace dotnet7_new_features.Cache
 
             var stats = cache.GetCurrentStatistics();
 
-            Console.WriteLine($"Current entry count: {stats.CurrentEntryCount}");
-            Console.WriteLine($"Current estimated size: {stats.CurrentEstimatedSize}");
-            Console.WriteLine($"Total hits: {stats.TotalHits}");
-            Console.WriteLine($"Total misses: {stats.TotalMisses}");
+            if (stats is not null)
+            {
+                Console.WriteLine($"Current entry count: {stats.CurrentEntryCount}");
+                Console.WriteLine($"Current estimated size: {stats.CurrentEstimatedSize}");
+                Console.WriteLine($"Total hits: {stats.TotalHits}");
+                Console.WriteLine($"Total misses: {stats.TotalMisses}");
+            }
         }
     }
 }
