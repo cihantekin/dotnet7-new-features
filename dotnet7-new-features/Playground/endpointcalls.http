@@ -1,0 +1,10 @@
+GET https://localhost:7120/WeatherForecast
+
+###
+
+@days = {
+  From: 2,
+  To: 5
+}
+
+GET https://localhost:7120/WeatherForecast/1-3
