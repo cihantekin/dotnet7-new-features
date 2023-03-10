@@ -38,8 +38,6 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.DisableImplicitFromServicesParameters = true;
 });
 
-//builder.Services.AddDbContext<QueryEnhancementsContext>(opt => opt.UseInMemoryDatabase("TestDb"));
-
 builder.Services.AddDbContextFactory<QueryEnhancementsContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(QueryEnhancementsContext)));

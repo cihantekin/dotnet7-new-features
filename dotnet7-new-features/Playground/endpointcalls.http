@@ -1,3 +1,4 @@
+# this is an replacement for postman
 # Get weather forecast
 
 GET https://localhost:7120/WeatherForecast
