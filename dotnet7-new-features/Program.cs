@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCaching;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
@@ -69,6 +70,18 @@ app.UseResponseCaching();
 app.MapGet("/EndpointWithDescription", () => { return "OK"; }).WithDescription("Test description for that endpoint");
 
 app.MapGet("/EndpointWithSummary", [EndpointSummary("Endpoint summary attribute example")] () => { });
+
+//Json Source Generators: to speed up yor Json API performance you can do that kind of manual stuff with source generators
+app.MapGet("/Person", () =>
+{
+    var person = new JsonPerson("Cihan Tekin", new DateTime(1990, 10, 7), new JsonPerson("Goker Inel", DateTime.Now));
+    // another type of usage
+    var json = JsonSerializer.Serialize(
+        person,
+        PersonSerializationContext.Default.JsonPerson);
+
+    Results.Json(person, PersonSerializationContext.Default.Options);
+});
 
 // when you hit the load button it's coming from the cache for 5 seconds
 app.MapGet("/ResponseCaching", (int? size, HttpContext context) =>
